@@ -7,24 +7,89 @@
     <title>David Chu's China Bistro</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap" rel="stylesheet">
-    <style type="text/css">
-    #top, #bottom {
-      width: 200px;
-      height: 200px;
-      background-color: maroon;
-      border: 1px solid red;
-    }
-    </style>
+    <link href='https://fonts.googleapis.com/css?family=Oxygen:400,300,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lora' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lora' rel='stylesheet' type="text/css">
   </head>
 <body>
+  <header>
+    <nav id="header-nav" class="navbar navbar-expand-sm navbar-light dropdown-menu-right">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="setup.html" class="float-left d-none d-md-block">
+            <div id="logo-img"></div>
+          </a>
 
-<div id="top" class="pull-left">Testing top</div>
-<div id="bottom">Testing bottom</div>
+          <div class="navbar-brand">
+            <a href="setup.html"><h1>David Chu's China Bistro</h1></a>
+            <p>
+              <img src="images/kosher.jpg" alt="Kosher certification">
+              <span>Kosher Certified</span>
+            </p>
+          </div>
+
+          <a class="navbar-brand" href="#"></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="menu-categories.html"><span class="glyphicon glyphicon-cutlery"></span><br class="d-none d-sm-block"> Menu</a></li>
+              <li class="nav-item active">
+                <a class="nav-link" href="#"><span class="glyphicon glyphicon-info-sign"></span><br class="d-none d-sm-block"> About</a></li>
+              <li class="nav-item active">
+                <a class="nav-link" href="#"><span class="glyphicon glyphicon-certificate"></span><br class="d-none d-sm-block"> Awards</a></li>
+              <li id="phone" class="d-none d-sm-block">
+                <a href="tel:410-602-5008"><span>410-602-5008</span></a><div>* We Deliver</div></li>
+            </ul>
+          </div>
+
+      </div>
+    </nav>
+
+
+  </header>
+
 
   <!-- jQuery (Bootstrap JS plugins depend on it) -->
-  <script src="js/jquery-2.1.4.min.js"></script>
+  <script src="js/jquery-2.1.0.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/script.js"></script>
 </body>
 </html>
+
+<!-- 
+<div class="navbar-nav">
+              <a class="nav-item nav-link" href="#"> Menu</a>
+              <a class="nav-item nav-link" href="#"> About</a>
+              <a class="nav-item nav-link" href="#"> Awards</a>
+              <a class="nav-item nav-link disabled" href="#">Disabled</a>
+            </div>
+          </div>
+ -->
+
+
+
+<!--  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul id="list-group" class="nav navbar-nav mr-auto">
+              <li>
+                <a href="menu-categories.html">
+                  <span class="glyphicon glyphicon-cutlery"></span><br class="d-none d-sm-block"> Menu
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <span class="glyphicon glyphicon-certificate"></span><br class="d-none d-sm-block"> About</a>
+              </li>
+              <li>
+                <a href="#">
+                  <span class="glyphicon glyphicon-certificate"></span><br class="d-none d-sm-block"> Awards</a>
+              </li>
+              <li id="phone" class="d-none d-sm-block">
+                <a href="tel:410-602-5008">
+                  <span>410-602-5008</span></a><div>* We Deliver</div>
+              </li>
+            </ul>
+          </div> -->
