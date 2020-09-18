@@ -16,22 +16,21 @@ $(function () { // Same as document.addEventListener("DOMContentLoaded"...
   // Solution: force focus on the element that the click event fired on
   $("#navbarToggle").click(function (event) {
     $(event.target).focus();
-  });
+  }); //^^^these three lines might not be necesary
 });
 
 (function (global) {
 
-var dc = {};
+var dc = {}; //"setting up namespace called dc"
 
-var homeHtml = "snippets/home-snippet.html";
-var allCategoriesUrl =
-  "https://davids-restaurant.herokuapp.com/categories.json";
-var categoriesTitleHtml = "snippets/categories-title-snippet.html";
-var categoryHtml = "snippets/category-snippet.html";
-var menuItemsUrl =
-  "https://davids-restaurant.herokuapp.com/menu_items.json?category=";
-var menuItemsTitleHtml = "snippets/menu-items-title.html";
-var menuItemHtml = "snippets/menu-item.html";
+var homeHtml = "snippets/home-snippet.html"; 
+var allCategoriesUrl = "https://davids-restaurant.herokuapp.com/categories.json";
+var categoriesTitleHtml = "snippets/categories-title-snippet.html"; 
+var categoryHtml = "snippets/category-snippet.html"; 
+
+var allCategoriesUrl = "https://davids-restaurant.herokuapp.com/menu_items.json?category=";//append each category later!
+var menuItemsTitleHtml = "snippets/menu-items-title.html"; 
+var menuItemHtml = "snippets/menu-item.html"; 
 
 // Convenience function for inserting innerHTML for 'select'
 var insertHtml = function (selector, html) {
@@ -46,8 +45,7 @@ var showLoading = function (selector) {
   insertHtml(selector, html);
 };
 
-// Return substitute of '{{propName}}'
-// with propValue in given 'string'
+//To insert properties (in array) into the category-snipped file! (NEW: lecture 61)
 var insertProperty = function (string, propName, propValue) {
   var propToReplace = "{{" + propName + "}}";
   string = string
@@ -61,55 +59,46 @@ document.addEventListener("DOMContentLoaded", function (event) {
 // On first load, show home view
 showLoading("#main-content");
 $ajaxUtils.sendGetRequest(
-  homeHtml,
-  function (responseText) {
+  homeHtml, //links to the home-snippet html file
+  function (responseText) { //handler function
     document.querySelector("#main-content")
       .innerHTML = responseText;
   },
   false);
 });
 
-// Load the menu categories view
+// NOW LOAD the menu categories view: Lecture 61 also
 dc.loadMenuCategories = function () {
   showLoading("#main-content");
   $ajaxUtils.sendGetRequest(
     allCategoriesUrl,
-    buildAndShowCategoriesHTML);
+    buildAndShowCategoriesHTML); //value of a function (defined below)
+    //AND IT WILL GENERATE A FULL OBJECT
 };
 
-
-// Load the menu items view
-// 'categoryShort' is a short_name for a category
+// NOW LOAD the SINGLE category view: Lecture 62
 dc.loadMenuItems = function (categoryShort) {
   showLoading("#main-content");
   $ajaxUtils.sendGetRequest(
     menuItemsUrl + categoryShort,
-    buildAndShowMenuItemsHTML);
+    buildAndShowMenuItemsHTML); //value of a function (defined later)
+    //AND IT WILL GENERATE A FULL OBJECT
 };
 
-
-// Builds HTML for the categories page based on the data
-// from the server
-function buildAndShowCategoriesHTML (categories) {
-  // Load title snippet of categories page
-  $ajaxUtils.sendGetRequest(
-    categoriesTitleHtml,
-    function (categoriesTitleHtml) {
-      // Retrieve single category snippet
-      $ajaxUtils.sendGetRequest(
-        categoryHtml,
-        function (categoryHtml) {
-          var categoriesViewHtml =
-            buildCategoriesViewHtml(categories,
-                                    categoriesTitleHtml,
-                                    categoryHtml);
+// BUILDS HTML for the Categories page based on data from server! (L 61):
+function buildAndShowCategoriesHTML (categories) { //"categories" is an OBJECT
+  // Load title snippet
+  $ajaxUtils.sendGetRequest(categoriesTitleHtml, function(categoriesTitleHtml) {
+    // Retreive single category snippet:
+      $ajaxUtils.sendGetRequest(categoryHtml, function(categoryHtml) {
+          var categoriesViewHtml = buildCategoriesViewHtml(categories, //JUST INVENTED THIS FUNCTION NOW (defined later)
+            categoriesTitleHtml, categoryHtml);
           insertHtml("#main-content", categoriesViewHtml);
         },
-        false);
+        false); //don't want any of our HTML snippets to be processed as json
     },
     false);
 }
-
 
 // Using categories data and snippets html
 // build categories view HTML to be inserted into page
@@ -118,9 +107,11 @@ function buildCategoriesViewHtml(categories,
                                  categoryHtml) {
 
   var finalHtml = categoriesTitleHtml;
-  finalHtml += "<section class='row'>";
+  console.log(finalHtml);
 
-  // Loop over categories
+  finalHtml += "<section class='row'>"; //since we removed that before, since its not looping
+
+  // Loop over categories array
   for (var i = 0; i < categories.length; i++) {
     // Insert category values
     var html = categoryHtml;
@@ -135,60 +126,50 @@ function buildCategoriesViewHtml(categories,
     finalHtml += html;
   }
 
-  finalHtml += "</section>";
+  finalHtml += "</section>"; //pretty coooooool
+  console.log(finalHtml);
+
   return finalHtml;
 }
 
-
-
-// Builds HTML for the single category page based on the data
-// from the server
-function buildAndShowMenuItemsHTML (categoryMenuItems) {
-  // Load title snippet of menu items page
-  $ajaxUtils.sendGetRequest(
-    menuItemsTitleHtml,
-    function (menuItemsTitleHtml) {
-      // Retrieve single menu item snippet
-      $ajaxUtils.sendGetRequest(
-        menuItemHtml,
-        function (menuItemHtml) {
-          var menuItemsViewHtml =
-            buildMenuItemsViewHtml(categoryMenuItems,
-                                   menuItemsTitleHtml,
-                                   menuItemHtml);
+// BUILDS HTML for the SINGLE category page based on data from server! (L 62):
+function buildAndShowMenuItemsHTML (categoryMenuItems) { 
+  // Load title snippet
+  $ajaxUtils.sendGetRequest(menuItemsTitleHtml, function(menuItemsTitleHtml) {
+    // Retreive single menu item snippet:
+      $ajaxUtils.sendGetRequest(menuItemHtml, function(menuItemHtml) {
+          var menuItemsViewHtml = buildMenuItemsViewHtml(categoryMenuItems, //JUST INVENTED THIS FUNCTION NOW (defined later)
+            menuItemsTitleHtml, menuItemHtml);
           insertHtml("#main-content", menuItemsViewHtml);
         },
-        false);
+        false); //don't want any of our HTML snippets to be processed as json
     },
     false);
 }
 
-
-// Using category and menu items data and snippets html
-// build menu items view HTML to be inserted into page
 function buildMenuItemsViewHtml(categoryMenuItems,
-                                menuItemsTitleHtml,
-                                menuItemHtml) {
+                                 menuItemsTitleHtml,
+                                 menuItemHtml) {
 
-  menuItemsTitleHtml =
-    insertProperty(menuItemsTitleHtml,
-                   "name",
-                   categoryMenuItems.category.name);
-  menuItemsTitleHtml =
-    insertProperty(menuItemsTitleHtml,
-                   "special_instructions",
-                   categoryMenuItems.category.special_instructions);
+  menuItemsTitleHtml = insertProperty(menuItemsTitleHtml, "name",
+    categoryMenuItems.category.special_instructions);
+
+  menuItemsTitleHtml = insertProperty(menuItemsTitleHtml, "special_instructions",
+    categoryMenuItems.category.name);
 
   var finalHtml = menuItemsTitleHtml;
-  finalHtml += "<section class='row'>";
+  console.log(finalHtml);
 
-  // Loop over menu items
+  finalHtml += "<section class='row'>"; //since we removed that before, since its not looping
+
+  // Loop over menu items (each an array)
   var menuItems = categoryMenuItems.menu_items;
   var catShortName = categoryMenuItems.category.short_name;
   for (var i = 0; i < menuItems.length; i++) {
     // Insert menu item values
     var html = menuItemHtml;
-    html =
+    html = //SETTING ALL OF THESE AS VARIABLES (to be defined later)
+          // BECAUSE SOMETIMES THESE DATA WON'T EXIST!
       insertProperty(html, "short_name", menuItems[i].short_name);
     html =
       insertProperty(html,
@@ -219,7 +200,7 @@ function buildMenuItemsViewHtml(categoryMenuItems,
                      "description",
                      menuItems[i].description);
 
-    // Add clearfix after every second menu item
+    // Add clearfix after every second menu item: (to not mess up our grid based on how large the menu items are) to CLEAR to the next row!
     if (i % 2 != 0) {
       html +=
         "<div class='clearfix visible-lg-block visible-md-block'></div>";
@@ -229,6 +210,8 @@ function buildMenuItemsViewHtml(categoryMenuItems,
   }
 
   finalHtml += "</section>";
+  console.log(finalHtml);
+
   return finalHtml;
 }
 
@@ -238,7 +221,7 @@ function insertItemPrice(html,
                          pricePropName,
                          priceValue) {
   // If not specified, replace with empty string
-  if (!priceValue) {
+  if (!priceValue) { //if it exists:
     return insertProperty(html, pricePropName, "");;
   }
 
